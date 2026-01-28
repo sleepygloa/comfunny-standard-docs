@@ -34,16 +34,10 @@ AI 및 모든 개발자는 이 규칙을 **절대적 기준(Single Source of Tru
 
 ---
 
-### [C] Project Specifics (Path: `.project-docs/`)
-특정 도메인이나 현장 상황에 특화된 가이드입니다.
+### [C] Project Specifics
+개별 프로젝트의 아키텍처 및 도메인 규칙은 각 프로젝트 루트의 `.project-docs/` 디렉토리 내에 정의합니다.
 
-- **[Mobile] WMS App:** `frontend-mobile-wms/.project-docs/1_PROJECT_PLAN.md`
-- **[Legacy] Analysis (Batch/CRN/Open/Internal):** `.project-docs/LEGACY_ANALYSIS.md`
+- **표준 위치:** `[Project Root]/.project-docs/1_PROJECT_OVERVIEW.md` (또는 `PLAN.md`)
+- **포함 내용:** 기획 의도, 아키텍처, 트러블슈팅, 레거시 마이그레이션 정보 등.
 
-
-
-
-- **레거시 분석:** `LEGACY_ANALYSIS.md`
-- **[신규] 나의 아이의 책읽기:** `frontend-mobile-mychild-reading/.project-docs/1_PROJECT_PLAN.md`
-
-프로젝트 진행 시 위 문서들의 최신 내용을 항상 참조하십시오.
+> **참고:** 현재 활성화된 프로젝트 목록과 위치는 저장소 루트의 **`README.md`**를 참조하십시오.

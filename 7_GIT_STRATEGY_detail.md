@@ -1,0 +1,61 @@
+# 7. Git Collaboration Strategy (Detailed Guide)
+
+## 1. 개요 (Overview)
+Git은 단순한 저장소가 아닙니다. **프로젝트의 역사(History)이자 의사소통 수단**입니다.
+이 문서는 충돌 해결, 리베이스 전략, PR 에티켓 등 심화 주제를 다룹니다.
+
+## 2. Advanced Workflow
+
+### 2.1 Rebase vs Merge (Why Squash?)
+우리는 **Squash and Merge** 전략을 사용하여 `main` 브랜치의 히스토리를 깔끔하게 유지합니다.
+
+- **Squash Merge의 이점:**
+    - 기능 개발 중 발생한 자잘한 커밋(`typo fix`, `wip`)들이 `main`에 남지 않습니다.
+    - 롤백 시 PR 단위(`Revert PR`)로 깔끔하게 되돌릴 수 있습니다.
+
+### 2.2 Feature Branch 관리
+- **브랜치 수명:** 기능 브랜치는 길어도 3일 이상 유지하지 않는 것을 권장합니다 (Long-lived feature branch 문제 방지).
+- **동기화:** `develop` 브랜치가 업데이트되면 즉시 내 브랜치로 가져와야 충돌을 최소화할 수 있습니다.
+    ```bash
+    git checkout develop
+    git pull origin develop
+    git checkout feat/my-feature
+    git merge develop  # 또는 git rebase develop (숙련자 권장)
+    ```
+
+## 3. Commit Message Detail
+
+### 3.1 Scope의 중요성
+`type(scope): subject` 형식에서 `scope`는 변경된 모듈을 명시합니다.
+
+- **Good Scopes:**
+    - `auth`: 인증 관련 (Login, JWT)
+    - `order`: 주문 도메인
+    - `ui`: 공통 UI 컴포넌트
+    - `infra`: Docker, Jenkins 설정
+
+### 3.2 Body와 Footer 활용
+복잡한 버그 수정이나 중요한 변경 사항은 Subject만으로 부족합니다.
+
+```text
+fix(auth): Fix JWT expiration time check
+
+(Body)
+기존 로직은 JWT 만료 시간을 UTC로 계산하지 않고 KST로 계산하여
+서버 시간대 설정에 따라 9시간 오차가 발생하는 버그가 있었음.
+Instant 타입을 사용하여 Timezone-safe하게 변경함.
+
+(Footer)
+Resolves: #102
+See: https://github.com/jwt-lib/issues/55
+```
+
+## 4. PR Etiquette
+
+### 4.1 Reviewer Guide
+- **비난 금지:** "왜 이렇게 짰어요?" (X) -> "이 부분을 이렇게 고치면 성능상 이점이 있을 것 같은데 어떻게 생각하세요?" (O)
+- **Blocking vs Non-blocking:** 반드시 수정해야 할 사항(`Request Changes`)과 권장 사항(`Comment`)을 명확히 구분합니다.
+
+### 4.2 Author Guide
+- **Self Review:** PR을 올리기 전, 스스로 Files Changed 탭을 보며 불필요한 공백이나 주석이 없는지 확인합니다.
+- **Description:** "로그인 수정" (X) -> "로그인 시 비밀번호 암호화 알고리즘을 SHA256에서 BCrypt로 변경" (O) 상세히 작성.

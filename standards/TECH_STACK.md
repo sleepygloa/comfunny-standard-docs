@@ -31,3 +31,10 @@
 | **State** | Pinia | Vuex 대체, TypeScript 친화적 |
 | **UI Kit** | Tailwind CSS + Headless UI | 커스텀 디자인 시스템 (`ComGrid` 등) 구현 |
 | **Http** | Axios | Interceptor를 통한 토큰/에러 공통 처리 |
+
+## 2.4 Mobile Application
+| 구분 | 기술 / 라이브러리 | 아키텍처 / 선정 이유 |
+| :--- | :--- | :--- |
+| **Android** | Kotlin, Jetpack Compose | **MVVM + Clean Architecture** (Hilt, Coroutines, Flow) |
+| **iOS** | Swift, SwiftUI | **MVVM + Clean Architecture** (Combine, Async/Await) |
+| **Flutter** | Dart, Flutter 3.x | **BLoC Pattern + Clean Architecture** (GetIt, Dio) |

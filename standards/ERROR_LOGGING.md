@@ -37,7 +37,7 @@
 ## 10.4 Log Level Policy
 | Level | Usage | Alerting |
 | :--- | :--- | :--- |
-| **ERROR** | 시스템 동작 불가, 데이터 유실, 즉시 조치 필요 | **SLA 위반 알림 (Call/SMS)** |
-| **WARN** | 예상치 못한 상황이나 자동 복구됨 (Retry 성공 등) | Slack 알림 |
+| **ERROR** | 시스템 동작 불가, 데이터 유실, 즉시 조치 필요 | **Discord Webhook** + SMS |
+| **WARN** | 예상치 못한 상황이나 자동 복구됨 (Retry 성공 등) | **Discord Webhook** (Topic별 분리) |
 | **INFO** | 주요 흐름(시작/종료), 상태 변경 Audit | - |
 | **DEBUG** | 개발/테스트용 상세 데이터 (운영 금지) | - |

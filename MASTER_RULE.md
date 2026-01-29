@@ -21,6 +21,7 @@ AI 및 모든 개발자는 이 규칙을 **절대적 기준(Single Source of Tru
 - **[08] 에러/로깅:** `ERROR_LOGGING.md` (ErrorCode, JSON Log, Discord Alert)
 - **[09] 문서화 표준:** `DOCUMENTATION_STANDARD.md` (README, CHANGELOG)
 - **[10] QA 가이드:** `QA_GUIDE.md` (AI Persona, Response Rule)
+- **[11] AI 역할 정의:** `AI_ROLE_DEFINITION.md` (CTO, Architect, Security Manager)
 
 ---
 

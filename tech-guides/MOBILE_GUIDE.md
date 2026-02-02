@@ -18,31 +18,65 @@ flutter pub add flutter_bloc get_it go_router dio
 flutter pub add --dev build_runner from_json_generator
 ```
 
-### 2.2 Project Structure & Pattern (BLoC + Clean Arch)
-Flutter는 **BLoC Pattern**을 표준으로 합니다.
+### 2.2 아키텍처 패턴 (MVVM + Clean Architecture)
+우리는 **Riverpod**를 활용한 MVVM 패턴과 **Clean Architecture** 계층 구조를 엄격히 준수합니다.
 
+#### 2.2.1 레이어 정의 (Layer Definition)
+1.  **Presentation Layer (UI)**: `lib/presentation/`
+    -   **역할**: UI 렌더링 및 사용자 상호작용.
+    -   **규칙**: 비즈니스 로직 포함 금지. `ref.watch`로 상태를 구독하고, `ref.read`로 작업을 트리거합니다.
+2.  **Application Layer (ViewModel)**: `lib/application/`
+    -   **역할**: 상태 관리, 비즈니스 로직 조율.
+    -   **구성 요소**: `Notifier` (Riverpod), Service.
+    -   **규칙**: Flutter UI 위젯에 의존하지 않습니다 (순수 Dart 지향).
+3.  **Domain Layer (Model)**: `lib/domain/`
+    -   **역할**: 핵심 비즈니스 로직 및 엔티티 정의.
+    -   **구성 요소**: Entity, Repository Interface, Usecase.
+    -   **규칙**: 외부 라이브러리 의존성을 최소화한 순수 Dart 영역입니다.
+4.  **Infrastructure Layer (Data)**: `lib/infrastructure/`
+    -   **역할**: 실제 데이터 입출력 (API, DB).
+    -   **구성 요소**: Repository Impl, DTO, Datasource.
+
+### 2.3 디렉토리 구조 (Directory Structure)
 ```text
 lib/
-├── main.dart
-├── core/                       # Config, Constants, DI (GetIt)
-├── src/
-│   ├── data/                   # [Data Layer] RepositoryImpl, DTO, Datasource
-│   │   ├── datasource/         # remote, local
-│   │   ├── repository_impl/
-│   │   └── models/             # DTO (fromJson)
-│   ├── domain/                 # [Domain Layer] Entity, Repository (Interface), Usecase
-│   │   ├── entities/           # Pure Dart Object
-│   │   ├── repositories/       # Interface
-│   │   └── usecases/           # Business Logic
-│   └── presentation/           # [Presentation Layer] BLoC, Screen, Widget
-│       ├── bloc/               # State Management
-│       ├── view/               # Screen (Scaffold)
-│       └── widget/             # Reusable UI
-└── assets/
+├── core/                       # 공통 설정 (Config, Constants, Extensions)
+├── application/                # [App Layer] StateNotifiers, Providers
+├── domain/                     # [Domain Layer] Entity, Repository Interface
+│   ├── entities/
+│   └── repositories/
+├── infrastructure/             # [Infra Layer] Repository Impl, DTO
+│   ├── datasources/
+│   ├── models/                 # DTO
+│   └── repositories/           # Impl
+├── presentation/               # [Presentation Layer] Screens, Widgets
+│   ├── common/
+│   └── features/               # 기능별 폴더 (예: login, home)
+│       └── [feature_name]/
+│           ├── [feature]_screen.dart
+│           └── widgets/
+└── main.dart
 ```
-**Rule:**
-- UI는 오직 BLoC의 State만 바라봅니다.
-- Business Logic은 Usecase에 위임합니다.
+
+### 2.4 코딩 표준 (Coding Standards)
+#### 2.4.1 코드 섹션 분리 (Section Separator)
+파일(특히 UI)은 표준 주석 블록을 사용하여 명확히 구분해야 합니다.
+```dart
+// **************************************************************************
+// ********** Section Name **********
+// **************************************************************************
+```
+**순서 (UI 위젯):**
+1. Constants & Controllers
+2. State Variables (`ref.watch`)
+3. Lifecycle Methods (`useEffect`)
+4. Main Build Method
+5. Sub-widget Builders
+
+#### 2.4.2 린터 규칙 (Linter Rules)
+- **따옴표**: 작은따옴표(`'`)를 강제합니다.
+- **Const**: 가능한 모든 곳에 `const`를 사용하여 리빌드를 최적화합니다.
+- **Print 금지**: `debugPrint()` 또는 로거를 사용하십시오.
 
 ### 2.3 Run Command
 ```bash

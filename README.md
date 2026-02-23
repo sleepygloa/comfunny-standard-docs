@@ -29,7 +29,7 @@
 이 문서는 **전사 아키텍처 및 개발 표준**의 최상위 진입점(Entry Point)입니다.
 AI 및 모든 개발자는 이 규칙을 **절대적 기준(Single Source of Truth)**으로 삼아야 합니다.
 
-> **Current Version:** `v1.0.0` (Refer to [DOCS_CHANGELOG.md](DOCS_CHANGELOG.md) for history)
+> **Current Version:** `v1.1.0` (Refer to [governance/DOCS_CHANGELOG.md](governance/DOCS_CHANGELOG.md) for history)
 
 
 ---
@@ -112,3 +112,8 @@ AI 및 모든 개발자는 이 규칙을 **절대적 기준(Single Source of Tru
 ## 4. Governance & Update
 - 이 문서는 분기별 1회 정기 점검을 통해 최신 기술 트렌드와 팀의 피드백을 반영하여 개정합니다.
 - 레거시가 된 규칙은 과감히 삭제하거나 `Legacy` 태그를 달아 격리합니다.
+
+## 5. RESPONSE PROTOCOL (MANDATORY)
+- **Rule Application Check (MANDATORY):** 모든 대화의 **첫 답변 최상단**에 아래 상태 체크 문구를 반드시 출력해야 합니다.
+  - 규칙이 적용된 경우(이 문서를 정상 참조한 경우): `✅ **[Rule Check]** .docs/README.md 기반 전사 아키텍처 규칙이 적용되었습니다.`
+  - 규칙을 찾을 수 없거나 적용되지 않은 경우: `⚠️ **[Rule Check]** 현재 .docs/README.md 전사 아키텍처 규칙이 적용되지 않았습니다. 규칙을 먼저 주입해 주시거나 지침을 확인해 주세요.`

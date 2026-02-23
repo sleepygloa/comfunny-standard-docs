@@ -9,3 +9,9 @@
 - 빈 `ops/` 디렉토리 제거.
 - `MASTER_RULE.md`를 단일 진실 공급원(SSOT)으로 확립.
 - `DOCS_UPDATE_GUIDE.md` 추가 (문서 업데이트 가이드).
+
+## [1.1.0] - 2026-02-23
+### 변경됨 (Changed)
+- `DOCS_VERSION` 단독 파일을 제거하고 `README.md`로 버전 명시 통합.
+- `.docs` 루트에 혼재된 메타/관리용 가이드들을 `.docs/governance/` 폴더로 이관 병합.
+- `EXISTING_SOURCE_ANALYSIS.md`를 `LEGACY_ANALYSIS_WORKFLOW.md`로 개편하여 AI 에이전트 분석 지침 파트 보강.

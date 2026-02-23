@@ -2,9 +2,29 @@
 > **변경점:** "MyBatis를 쓴다"가 아니라 "복잡한 쿼리는 MyBatis, 단순 CRUD는 JPA"처럼 **사용 기준**을 명시합니다.
 
 ```markdown
-# 2. Technology Stack & Decision Records
+# [A-01] Technology Stack & Decision Records
 
-## 2.1 Backend (Spring Boot)
+## 목차
+
+<!-- toc -->
+
+  * [A-01-2.1 Backend (Spring Boot)](#a-01-21-backend-spring-boot)
+  * [A-01-2.2 Frontend 1 (Next.js - Public Web)](#a-01-22-frontend-1-nextjs---public-web)
+  * [A-01-2.3 Frontend 2 (Vue.js - Admin)](#a-01-23-frontend-2-vuejs---admin)
+  * [A-01-2.4 Mobile Application](#a-01-24-mobile-application)
+- [[A-01] Technology Stack & Decision Records (Detailed Guide)](#a-01-technology-stack--decision-records-detailed-guide)
+  * [A-01-1. 개요 (Overview)](#a-01-1-%EA%B0%9C%EC%9A%94-overview)
+  * [A-01-2. Backend (Spring Boot) 상세 전략](#a-01-2-backend-spring-boot-%EC%83%81%EC%84%B8-%EC%A0%84%EB%9E%B5)
+    + [A-01-2.1 Hybrid ORM 전략 (JPA + MyBatis)](#a-01-21-hybrid-orm-%EC%A0%84%EB%9E%B5-jpa--mybatis)
+    + [A-01-2.2 인증/인가 (Spring Security + JWT)](#a-01-22-%EC%9D%B8%EC%A6%9D%EC%9D%B8%EA%B0%80-spring-security--jwt)
+  * [A-01-3. Frontend 상세 전략](#a-01-3-frontend-%EC%83%81%EC%84%B8-%EC%A0%84%EB%9E%B5)
+    + [A-01-3.1 Next.js (Public Web) - SEO & Performance](#a-01-31-nextjs-public-web---seo--performance)
+    + [A-01-3.2 Vue 3 (Admin) - Productivity](#a-01-32-vue-3-admin---productivity)
+  * [A-01-4. Build & CI Integration](#a-01-4-build--ci-integration)
+
+<!-- tocstop -->
+
+## A-01-2.1 Backend (Spring Boot)
 | 구분 | 기술 / 라이브러리 | 버전 / 선정 이유 |
 | :--- | :--- | :--- |
 | **Framework** | Spring Boot | 3.2.x (Java 17) |
@@ -14,7 +34,7 @@
 | **Auth** | Spring Security + JWT | Stateless 인증 아키텍처 |
 | **Build** | Gradle (Groovy) | `gradle-node-plugin` 활용한 프론트 빌드 통합 |
 
-## 2.2 Frontend 1 (Next.js - Public Web)
+## A-01-2.2 Frontend 1 (Next.js - Public Web)
 | 구분 | 기술 / 라이브러리 | 버전 / 선정 이유 |
 | :--- | :--- | :--- |
 | **Core** | Next.js | 14.0+ (App Router 필수) |
@@ -23,7 +43,7 @@
 | **State** | Zustand | (필요 시) 전역 상태 관리 |
 | **Fetch** | Native Fetch | Server Component 캐싱 활용 (Axios 지양) |
 
-## 2.3 Frontend 2 (Vue.js - Admin)
+## A-01-2.3 Frontend 2 (Vue.js - Admin)
 | 구분 | 기술 / 라이브러리 | 버전 / 선정 이유 |
 | :--- | :--- | :--- |
 | **Core** | Vue 3 | Composition API (`<script setup>`) |
@@ -32,7 +52,7 @@
 | **UI Kit** | Tailwind CSS + Headless UI | 커스텀 디자인 시스템 (`ComGrid` 등) 구현 |
 | **Http** | Axios | Interceptor를 통한 토큰/에러 공통 처리 |
 
-## 2.4 Mobile Application
+## A-01-2.4 Mobile Application
 | 구분 | 기술 / 라이브러리 | 아키텍처 / 선정 이유 |
 | :--- | :--- | :--- |
 | **Android** | Kotlin, Jetpack Compose | **MVVM + Clean Architecture** (Hilt, Coroutines, Flow) |
@@ -44,15 +64,15 @@
 
 <!-- DETAILED GUIDE START -->
 
-# 2. Technology Stack & Decision Records (Detailed Guide)
+# [A-01] Technology Stack & Decision Records (Detailed Guide)
 
-## 1. 개요 (Overview)
+## A-01-1. 개요 (Overview)
 본 문서는 `2_TECH_STACK.md`에 정의된 기술 스택에 대한 상세한 선정 근거와 활용 전략을 기술합니다.
 단순히 "무엇을 쓰는가"를 넘어 **"왜 쓰는가"**와 **"어떻게 최적화하여 사용하는가"**를 설명합니다.
 
-## 2. Backend (Spring Boot) 상세 전략
+## A-01-2. Backend (Spring Boot) 상세 전략
 
-### 2.1 Hybrid ORM 전략 (JPA + MyBatis)
+### A-01-2.1 Hybrid ORM 전략 (JPA + MyBatis)
 엔터프라이즈 환경에서는 생산성과 성능, 유연성 세 마리 토끼를 다 잡아야 합니다.
 
 - **JPA (Command - C/U/D):**
@@ -69,26 +89,26 @@
         - 엑셀 다운로드용 대용량 데이터 조회
     - **Tip:** `ResultMap`을 재사용하여 DTO 매핑 생산성을 높이십시오.
 
-### 2.2 인증/인가 (Spring Security + JWT)
+### A-01-2.2 인증/인가 (Spring Security + JWT)
 - **Stateful vs Stateless:**
     - 우리는 **Stateless**를 지향하므로 Session 대신 **JWT (Access + Refresh Token)** 방식을 채택합니다.
     - **Rotation 전략:** Refresh Token은 DB(Redis)에 저장하여 탈취 시 강제 만료(Logout)시킬 수 있도록 구현해야 합니다.
 
-## 3. Frontend 상세 전략
+## A-01-3. Frontend 상세 전략
 
-### 3.1 Next.js (Public Web) - SEO & Performance
+### A-01-3.1 Next.js (Public Web) - SEO & Performance
 - **Server Components (RSC):**
     - **Why:** 클라이언트 번들 사이즈를 줄이고, 초기 로딩 속도(FCP)를 개선하며, 검색 엔진 크롤러에게 완성된 HTML을 제공하기 위함입니다.
     - **Rule:**
         - `useState`, `useEffect`가 필요한 경우에만 `"use client"`를 명시합니다.
         - 데이터 페칭은 가능한 서버 컴포넌트(`page.tsx`)에서 수행합니다.
 
-### 3.2 Vue 3 (Admin) - Productivity
+### A-01-3.2 Vue 3 (Admin) - Productivity
 - **Composition API:**
     - **Why:** Options API는 코드가 분산되어 유지보수가 어렵습니다. 관련된 로직(상태, 메서드)을 한 곳에 뭉칠 수 있는 Composition API가 대규모 어드민 개발에 더 적합합니다.
     - **Guide:** `composables/` 폴더를 적극 활용하여 비즈니스 로직(예: 페이징, 폼 검증)을 재사용 가능한 함수로 분리하십시오.
 
-## 4. Build & CI Integration
+## A-01-4. Build & CI Integration
 - **Mono-build Strategy:**
     - Gradle이 빌드의 주체가 되어 `node` 환경까지 제어합니다.
     - **이점:** 백엔드 개발자가 프론트엔드 환경 세팅 없이 `./gradlew build` 하나로 전체 아티팩트를 생성할 수 있습니다.

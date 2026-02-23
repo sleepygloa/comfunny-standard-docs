@@ -1,12 +1,31 @@
-# 9. Test Strategy
+# [A-07] Test Strategy
 
-## 9.1 Overview
+## 목차
+
+<!-- toc -->
+
+  * [A-07-9.1 Overview](#a-07-91-overview)
+  * [A-07-9.2 Test Pyramid Strategy](#a-07-92-test-pyramid-strategy)
+  * [A-07-9.3 Minimum Coverage Requirement](#a-07-93-minimum-coverage-requirement)
+  * [A-07-9.4 Test Naming Convention](#a-07-94-test-naming-convention)
+- [[A-07] Test Strategy (Detailed Guide)](#a-07-test-strategy-detailed-guide)
+  * [A-07-1. 개요 (Overview)](#a-07-1-%EA%B0%9C%EC%9A%94-overview)
+  * [A-07-2. Unit Testing Best Practices (Backend)](#a-07-2-unit-testing-best-practices-backend)
+    + [A-07-2.1 Mocking Strategy (Mockito)](#a-07-21-mocking-strategy-mockito)
+  * [A-07-3. Integration Testing Best Practices](#a-07-3-integration-testing-best-practices)
+    + [A-07-3.1 @SpringBootTest slicing](#a-07-31-springboottest-slicing)
+    + [A-07-3.2 Test Data Management](#a-07-32-test-data-management)
+  * [A-07-4. Frontend Testing (Jest / Vitest)](#a-07-4-frontend-testing-jest--vitest)
+
+<!-- tocstop -->
+
+## A-07-9.1 Overview
 테스트 없는 코드는 **레거시(기술 부채)**입니다.
 우리는 **Test Pyramid** 전략을 따르며, 빠르고 신뢰성 있는 테스트를 지향합니다.
 
 ---
 
-## 9.2 Test Pyramid Strategy
+## A-07-9.2 Test Pyramid Strategy
 | Level | Scope | Tool | Frequency |
 | :--- | :--- | :--- | :--- |
 | **Unit** | 클래스/메서드 단위 격리 테스트 | JUnit5, Mockito, Jest | 매 빌드/커밋 시 |
@@ -15,7 +34,7 @@
 
 ---
 
-## 9.3 Minimum Coverage Requirement
+## A-07-9.3 Minimum Coverage Requirement
 - **Business Logic (Service/Domain):** **80%** 이상 (필수)
 - **Utils/Helper:** **90%** 이상
 - **UI Components:** 핵심 컴포넌트 위주 작성 (수치 강제 없음)
@@ -23,7 +42,7 @@
 
 ---
 
-## 9.4 Test Naming Convention
+## A-07-9.4 Test Naming Convention
 한글로 명확하게 작성하는 것을 권장합니다 (DCI 패턴).
 
 - **Format:** `메서드명_상황_기대결과()` or `@DisplayName("...")`
@@ -39,14 +58,14 @@
 
 <!-- DETAILED GUIDE START -->
 
-# 9. Test Strategy (Detailed Guide)
+# [A-07] Test Strategy (Detailed Guide)
 
-## 1. 개요 (Overview)
+## A-07-1. 개요 (Overview)
 테스트 코드는 작성하고 끝이 아니라, **살아있는 문서**여야 합니다. 유지보수하기 쉬운 테스트 코드를 작성하는 방법을 가이드합니다.
 
-## 2. Unit Testing Best Practices (Backend)
+## A-07-2. Unit Testing Best Practices (Backend)
 
-### 2.1 Mocking Strategy (Mockito)
+### A-07-2.1 Mocking Strategy (Mockito)
 - **Don't Mock Everything:** 너무 많은 Mocking은 테스트를 취약하게 만듭니다. 순수 자바 객체(Domain/Utils)는 Mock 없이 실제 객체를 쓰세요.
 - **Service Test:** Repository 등의 `IO` 작업만 Mocking 합니다.
 
@@ -69,18 +88,18 @@ class OrderServiceTest {
 }
 ```
 
-## 3. Integration Testing Best Practices
+## A-07-3. Integration Testing Best Practices
 
-### 3.1 @SpringBootTest slicing
+### A-07-3.1 @SpringBootTest slicing
 - `@SpringBootTest`는 너무 무겁습니다. 필요한 레이어만 로드하십시오.
     - Controller 테스트: `@WebMvcTest`
     - Repository 테스트: `@DataJpaTest` (내장 DB 사용)
 
-### 3.2 Test Data Management
+### A-07-3.2 Test Data Management
 - 테스트 간의 **데이터 오염**을 막아야 합니다.
 - `@Transactional`: 테스트 메서드 종료 후 자동 롤백 (가장 권장).
 - `@Sql`: 테스트 실행 전 `schema.sql`, `data.sql`로 초기화.
 
-## 4. Frontend Testing (Jest / Vitest)
+## A-07-4. Frontend Testing (Jest / Vitest)
 - **Snapshot Test:** UI 변경 감지에는 유용하나, 깨지기 쉬우므로 남용하지 않습니다.
 - **User Interaction:** 내부 구현(`state.value = ...`)을 테스트하지 말고, 사용자 행위(`fireEvent.click`)를 테스트하십시오. (Implementation Details vs Behavior)

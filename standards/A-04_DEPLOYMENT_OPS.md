@@ -44,6 +44,7 @@ services:
     environment:
       - NODE_ENV=production
     restart: always
+```
 
 ## A-04-6.3 Monitoring & Logging
 1.Logs: 모든 컨테이너 로그는 Docker Driver를 통해 수집하며, 파일 시스템에 영구 보관하지 않는다 (ELK 스택 등으로 전송 권장).
@@ -62,6 +63,7 @@ git tag -l
 # 2. 특정 버전으로 체크아웃 및 재배포
 git checkout v1.0.5
 docker-compose up --build -d
+```
 
 ---
 
@@ -115,3 +117,57 @@ docker-compose up --build -d
 ### A-04-4.2 DB Connection Pool Exhaustion
 - 증상: API 타임아웃 발생, 로그에 `Connection is not available` 발생.
 - 조치: HikariCP 설정 점검 (`maximum-pool-size`), 트랜잭션이 오래 걸리는 쿼리(Long Transaction) 킬.
+
+## A-04-5. Firebase Hosting Deployment (Flutter Web / Static Web)
+
+Flutter Web 프로젝트 등 정적 웹사이트를 Firebase Hosting을 통해 배포할 때는 다음 표준을 따릅니다.
+
+### A-04-5.1 Firebase 초기 설정 (`firebase.json`)
+Flutter Web 빌드 결과물은 기본적으로 `build/web` 폴더에 생성되므로, Firebase Hosting의 `public` 디렉토리를 해당 경로로 올바르게 지정해야 404 에러가 발생하지 않습니다.
+
+```json
+{
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "headers": [
+      {
+        "source": "**/*.apk",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### A-04-5.2 자동화 배포 스크립트 (`deploy_web.bat` / `deploy_web.sh`)
+단순 반복되는 배포 작업을 자동화하고 휴먼 에러를 방지하기 위해 프로젝트 루트에 배포 스크립트를 작성하여 사용합니다. 스크립트에는 다음의 단계가 포함되어야 합니다.
+
+1. **Pre-flight Check**: `flutter` 및 `firebase` CLI 설치 여부 확인
+2. **Version Bump**: 배포 전 버전 번호 자동/수동 증가 (e.g. `pubspec.yaml` 수정)
+3. **Build**: `flutter build web --release` 실행
+4. **Deploy**: `firebase deploy --only hosting` 실행
+
+**스크립트 예시 (Windows Batch):**
+```bat
+@echo off
+chcp 65001 > nul
+echo [1/3] Building Web App...
+call flutter build web --release
+if errorlevel 1 exit /b 1
+
+echo [2/3] Uploading to Firebase Hosting...
+call firebase deploy --only hosting
+if errorlevel 1 exit /b 1
+
+echo [DONE] Web Deployment Complete!
+```

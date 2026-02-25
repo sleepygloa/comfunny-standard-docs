@@ -54,6 +54,26 @@ AI 및 모든 개발자는 이 규칙을 **절대적 기준(Single Source of Tru
 
 ---
 
+### [T] UI Templates (Path: `.docs/admin-templates/`)
+관리자(Admin), 백오피스, CMS 페이지를 효율적이고 일관되게 생성하기 위한 HTML/DOM 구조 표준입니다.
+모든 신규 Admin 화면 설계 시 반드시 이곳의 구조를 복사하여 시작하십시오.
+
+- **[T-01] 대시보드 레이아웃:** `T-01_DASHBOARD_LAYOUT.md` (Header, Sidebar, Content Wrapper)
+- **[T-02] 데이터 그리드 패널:** `T-02_DATA_TABLE_PANEL.md` (Table, Panel, Toolbar)
+- **[T-03] 폼 입력 양식:** `T-03_FORM_INPUTS.md` (Input Group, Select, Textarea)
+- **[T-04] AI 이미지 생성 폼:** `T-04_FORM_AI_IMAGE_GENERATOR.md` (AI 챗/이미지 파라미터 및 갤러리)
+- **[T-05] 이메일/쪽지 인박스:** `T-05_EMAIL_INBOX.md` (좌측 메일박스 사이드바, 우측 리스트)
+- **[T-06] 범용 UI 컴포넌트:** `T-06_UI_GENERAL_ELEMENTS.md` (Alerts, Cards, Progress Bars)
+- **[T-07] 탭 & 아코디언:** `T-07_UI_TABS_ACCORDIONS.md` (Nav Tabs, Collapse Accordions)
+- **[T-08] 폼 유효성 검증:** `T-08_FORM_VALIDATION.md` (is-valid, is-invalid 렌더링 상태 표시)
+- **[T-09] 고급 데이터 그리드:** `T-09_ADVANCED_TABLES.md` (DataTables 툴바, 반응형 테이블)
+- **[T-10] POS 시스템 뷰:** `T-10_POS_SYSTEM.md` (풀스크린 상품 그리드 및 영수증 패널)
+- **[T-11] 특수 명세서/프로필:** `T-11_EXTRA_PAGES.md` (Invoice 출력 및 프로필 전용 레이아웃)
+- **[T-12] 인증/로그인 뷰:** `T-12_AUTHENTICATION.md` (전체 화면 배경 및 플로팅 라벨 패턴)
+- **[T-13] AI 챗봇 인터페이스:** `T-13_AI_CHAT.md` (대화형 에이전트 전용 풀스크린 레이아웃)
+
+---
+
 ### [B] Tech Guides (Path: `.docs/tech-guides/`)
 특정 기술 스택을 사용하여 프로젝트를 시작할 때 따르는 **Init & Run 매뉴얼**입니다.
 

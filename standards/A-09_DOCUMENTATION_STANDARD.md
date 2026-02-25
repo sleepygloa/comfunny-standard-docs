@@ -20,6 +20,11 @@
 모든 프로젝트(서비스)는 루트에 아래 필수 문서를 반드시 포함해야 합니다.
 
 ---
+## A-09-11.1 Overview
+코드가 아무리 좋아도 **문서**가 없으면 죽은 프로젝트입니다.
+모든 프로젝트(서비스)는 루트에 아래 필수 문서를 반드시 포함해야 합니다.
+
+---
 
 ## A-09-11.2 Mandatory Documents (필수 문서)
 | 파일명 | 필수 여부 | 내용 |
@@ -28,6 +33,7 @@
 | `CHANGELOG.md` | **Required** | 버전별 변경 이력 (Keep a Changelog 포맷) |
 | `TECH_STACK.md` | Optional | 프로젝트별 특이 기술 스택 (Global과 다를 경우만 작성) |
 | `API_DOCS.md` | Optional | Swagger URL 링크 또는 API 명세 (Swagger 권장) |
+| `RELEASE_NOTE.md` | Optional | 외부 노출용/홍보용 프로젝트 배포 요약 (비즈니스/사용자 가치 중심) |
 
 ---
 
@@ -105,3 +111,12 @@ cp src/main/resources/application-local.yml.example src/main/resources/applicati
 - `README.md`도 코드입니다.
 - 오타 수정, 버전 업데이트 등도 PR을 통해 리뷰 받고 Merge 되어야 합니다.
 - Wiki(Confluence)보다는 Repository 내부의 마크다운 문서를 1순위(SSOT)로 유지하십시오.
+
+## A-09-4. Release Note (외부 고시용 문서) 추출 가이드
+프로젝트가 완료되거나 메이저 업데이트가 발생했을 때, 비즈니스 부서나 외부 사용자에게 배포할 수 있는 **홍보용/고시용 문서**를 추출해야 합니다. AI에게 다음과 같은 프롬프트를 사용하여 추출을 지시하세요.
+
+> **AI Prompt 템플릿:**
+> "현재 완료된 프로젝트(또는 릴리즈)의 변경 사항을 바탕으로 외부 홍보용 `RELEASE_NOTE.md`를 작성해 줘.
+> 1. 개발/기술적인 용어(예: Refactoring DB, Redis Cache 변경)는 배제하거나 비즈니스 가치(예: 페이지 로딩 속도 X배 향상)로 변환해 줘.
+> 2. 사용자가 얻게 되는 새로운 혜택과 주요 기능 변화를 위주로 작성해 줘.
+> 3. 친절하고 전문적인 톤(마케팅/릴리즈 노트 톤)을 유지해 줘."

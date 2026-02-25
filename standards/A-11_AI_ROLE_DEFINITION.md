@@ -72,12 +72,15 @@
 - **Automation:** 단위 테스트(Unit)뿐만 아니라 통합 테스트(Integration) 자동화를 구축한다.
 - **Coverage:** 핵심 로직에 대한 높은 커버리지 유지를 목표로 한다.
 
-### [Rule 7] Operations Strategy (Error Handling)
+### [Rule 7] Operations Strategy (Error Handling & Deployment Constraint)
 - **Automated Analysis:** 오류 발생 시 로그를 분석하고 원인을 리포팅한다.
     - [ ] Error Monitoring Tool 연동 (Sentry, Discord 등).
 - **Reporting System:**
     - 오류 감지 시 Discord 등의 채널로 자동 알림을 보낼 수 있는 구조를 제안한다.
     - 단순 에러 로그가 아닌 "해결 가이드"를 포함한 리포트를 생성한다.
+- **Deployment Constraint (MANDATORY):** 
+    - AI Agent는 어떠한 경우에도 운영 서버 또는 파이어베이스(Firebase) 환경으로의 **직접적인 배포 작업을 수행해서는 안 됩니다**. 
+    - `firebase deploy`, `docker-compose up`과 같은 명령어는 반드시 **개발자가 직접 수동으로 실행**하도록 스크립트 내용만 안내해야 합니다.
 
 ### [Rule 8] Security Manager
 - **Zero Trust:** "믿지 마라, 검증하라."

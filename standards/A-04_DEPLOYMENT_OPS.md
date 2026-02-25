@@ -11,7 +11,11 @@
 <!-- tocstop -->
 
 ## A-04-6.1 CI/CD Pipeline Strategy
-본 프로젝트는 **GitHub Actions** (또는 Jenkins)를 통한 자동 배포를 원칙으로 한다.
+본 프로젝트는 **GitHub Actions** (또는 Jenkins)를 통한 자동 배포 또는 **개발자의 수동 배포**를 원칙으로 한다.
+
+> ⚠️ **[AI AGENT RESTRICTION]** 
+> AI Agent는 **절대로** 운영/개발 환경에 대한 배포 명령(`firebase deploy`, `docker-compose up`, `flutter build` 후 서버 전송 등)을 **자동으로 또는 임의로 실행해서는 안 됩니다.** 
+> 배포 파이프라인 트리거 및 서버 업로드는 **무조건 인간 개발자(USER)가 수동으로 진행**합니다. AI는 배포 스크립트 작성 및 빌드 아티팩트 점검까지만 보조합니다.
 
 ### Pipeline Stages
 1.  **Checkout:** 최신 코드 인출.

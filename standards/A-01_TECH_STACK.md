@@ -59,6 +59,15 @@
 | **iOS** | Swift, SwiftUI | **MVVM + Clean Architecture** (Combine, Async/Await) |
 | **Flutter** | Dart, Flutter 3.x | **BLoC Pattern + Clean Architecture** (GetIt, Dio) |
 
+## A-01-2.5 Local AI Worker (Hybrid Architecture)
+| 구분 | 기술 / 라이브러리 | 버전 / 선정 이유 |
+| :--- | :--- | :--- |
+| **Language** | Python | 3.11.x (머신러닝 및 AI 라이브러리 생태계 표준) |
+| **Framework** | Native (또는 FastAPI) | 가벼운 폴링(Polling) 스크립트 또는 마이크로서비스 |
+| **TTS** | `edge-tts` | 빠르고 자연스러운 무료 고품질 음성 합성 |
+| **Avatar (Lip-Sync)** | `SadTalker` / `Wav2Lip` | 이미지 + 음성 기반 립싱크 비디오 생성 (로컬 GPU 가속: PyTorch, CUDA 12.1+) |
+| **Media Edit** | `moviepy` / `ffmpeg` | 파이썬 레벨의 빠르고 유연한 미디어 후처리(병합/컷 편집) |
+
 
 ---
 
@@ -112,3 +121,16 @@
 - **Mono-build Strategy:**
     - Gradle이 빌드의 주체가 되어 `node` 환경까지 제어합니다.
     - **이점:** 백엔드 개발자가 프론트엔드 환경 세팅 없이 `./gradlew build` 하나로 전체 아티팩트를 생성할 수 있습니다.
+
+## A-01-5. AI Local Worker (Hybrid AI Architecture) 상세 전략
+
+### A-01-5.1 Cloud-Local 하이브리드 구조의 당위성
+- 비싼 클라우드 GPU(인스턴스) 비용을 절감하기 위해, **제어/웹 인스턴스는 Cloud(Firebase/Next.js)**에, 무거운 **AI 추론(Inference)은 로컬 PC의 GPU(RTX 4060 등)**를 활용하는 분리 아키텍처를 권장합니다.
+- **Workflow:** Web App (Job 지시) ➡️ Firestore (Queue/PENDING) ➡️ Local Python Worker (감지 및 생성) ➡️ Firebase Storage (업로드) ➡️ Web App (결과 확인)
+
+### A-01-5.2 Python 환경 관리의 파편화 방지
+- **Why:** 파이썬은 패키지 의존성 출돌이 매우 잦으므로 글로벌 환경(`pip install`) 설치를 엄격히 금지합니다.
+- **Rule:** 
+  1. 각 Worker 프로젝트는 반드시 최상단에 `venv` (가상환경)를 구성해야 합니다.
+  2. 추론 모델(SadTalker 등) 구동을 위한 서브 모듈도 각각의 전용 가상환경을 분리 생성하여 서브프로세스(`subprocess.run`)로 호출합니다.
+  3. 모든 의존성은 명시적인 `requirements.txt` 로 관리합니다.
